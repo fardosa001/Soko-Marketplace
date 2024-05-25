@@ -4,16 +4,24 @@ import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS
 from bson.objectid import ObjectId
+import os
+import certifi
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)
+
 
 app = Flask(__name__)
 JWT = JWTManager(app)
 CORS(app)
 
-app.config['MONGO_URI'] = 'mongodb+srv://fardosaadow:1czZbqstjoeBJIp3@cluster0.cjsvyhv.mongodb.net/ecommerce_website?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://fardosaadow:1czZbqstjoeBJIp3@cluster0.cjsvyhv.mongodb.net/ecommerce_website?retryWrites=true&w=majority&tlsCAFile=' + certifi.where()
 mongo = PyMongo(app)
 
 app.secret_key = 'secret key'
 app.config['JWT_SECRET_KEY'] = 'this-is-the-secret-key'
+
 
 @app.route("/")
 def hello_world():
