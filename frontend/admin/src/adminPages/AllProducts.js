@@ -1,44 +1,51 @@
 import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-
+import { NavLink } from 'react-router-dom';
 import Icon from '@mdi/react';
 import { mdiTrashCanOutline, mdiSquareEditOutline, mdiPlusBox } from '@mdi/js';
+import PropTypes from 'prop-types';
 
-const AllProducts = (props) => {
-    const navigate = useNavigate();
-
+const AllProducts = ({ addButton, productName, productPrice, productType, uid, productUrl }) => {
     return (
         <>
-            {props.addButton ?
-                <>
-                    <NavLink to="/addProduct" className="card-link" >
-                        <Icon path={mdiPlusBox} size={4} color="#0066ff" />
-                    </NavLink>
-                </>
-                :
-                <>
-                    <div className="card cardwidth">
-                        <div className="card-body">
-                            <p className="card-text">{props.productName}</p>
-                            <p className="card-text"><span style={{ fontWeight: 'bold' }}>₹ {props.productPrice}</span> for {props.productType} </p>
-                            <NavLink to={{
-                                pathname: '/editProduct',
-                                state: { uid: props.uid, productUrl: props.productUrl, productName: props.productName, productType: props.productType, productPrice: props.productPrice }
-                            }} className="card-link">
-                                <Icon path={mdiSquareEditOutline} size={1} color="#0066ff" />
-                            </NavLink>
-                            <NavLink to={{
-                                pathname: '/deleteProduct',
-                                state: { uid: props.uid }
-                            }} className="card-link ">
-                                <Icon path={mdiTrashCanOutline} size={1} color="red" />
-                            </NavLink>
-                        </div>
+            {addButton ? (
+                <NavLink to="/addProduct" className="card-link">
+                    <Icon path={mdiPlusBox} size={4} color="#0066ff" />
+                </NavLink>
+            ) : (
+                <div className="card cardwidth">
+                    <div className="card-body">
+                        <p className="card-text">{productName}</p>
+                        <p className="card-text">
+                            <span style={{ fontWeight: 'bold' }}>₹ {productPrice}</span> for {productType}
+                        </p>
+                        <NavLink
+                            to="/editProduct"
+                            state={{ uid, productUrl, productName, productType, productPrice }}
+                            className="card-link"
+                        >
+                            <Icon path={mdiSquareEditOutline} size={1} color="#0066ff" />
+                        </NavLink>
+                        <NavLink
+                            to="/deleteProduct"
+                            state={{ uid }}
+                            className="card-link"
+                        >
+                            <Icon path={mdiTrashCanOutline} size={1} color="red" />
+                        </NavLink>
                     </div>
-                </>
-            }
+                </div>
+            )}
         </>
     );
+};
+
+AllProducts.propTypes = {
+    addButton: PropTypes.bool,
+    productName: PropTypes.string.isRequired,
+    productPrice: PropTypes.number.isRequired,
+    productType: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    productUrl: PropTypes.string.isRequired
 };
 
 export default AllProducts;

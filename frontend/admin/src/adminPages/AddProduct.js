@@ -9,31 +9,30 @@ const AddProduct = () => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productCategory, setProductCategory] = useState('Groceries');
-    const [selectedFile, setSelectedFile] = useState();
+    const [selectedFile, setSelectedFile] = useState(null);
     const [url, setUrl] = useState('');
-
-    const [data, setData] = useState();
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const notifyMessage = (msg) => toast.success(msg, {
         icon: '😀',
     });
 
     const getAdminData = async () => {
-        const token = await localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         try {
             const res = await fetch('/getAdminData', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    "auth": token
-                })
+                body: JSON.stringify({ "auth": token })
             });
 
             const data = await res.json();
             if (res.status === 201) {
                 setData(data[0]);
+                setLoading(false);
             } else {
                 window.alert('Something went wrong');
             }
@@ -59,10 +58,9 @@ const AddProduct = () => {
                 })
             });
 
-            const data = await res.json();
+            const responseData = await res.json();
             if (res.status === 201) {
                 notifyMessage('Product Added Successfully!');
-
                 setTimeout(() => {
                     navigate('/');
                 }, 2000);
@@ -73,22 +71,26 @@ const AddProduct = () => {
             console.log(error);
         }
 
-        setSelectedFile();
+        setSelectedFile(null);
         setProductName('');
         setProductPrice('');
     };
 
     const onImageChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-        if (event.target.files && event.target.files[0]) {
-            setUrl(URL.createObjectURL(event.target.files[0]));
+        const file = event.target.files[0];
+        setSelectedFile(file);
+        if (file) {
+            setUrl(URL.createObjectURL(file));
         }
     };
 
     useEffect(() => {
         getAdminData();
-        console.log(data);
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className='container flex '>
@@ -125,10 +127,20 @@ const AddProduct = () => {
                             <span className="sr-only">Toggle Dropdown</span>
                         </button>
                         <div className="dropdown-menu">
-                            <NavLink className="dropdown-item" to="#" onClick={() => { setProductCategory('Groceries') }}>Groceries</NavLink>
-                            <NavLink className="dropdown-item" to="#" onClick={() => { setProductCategory('Bath Products') }}>Bath Products</NavLink>
+                            <NavLink className="dropdown-item" to="#" onClick={() => { setProductCategory('Clothing') }}>CLOTHING</NavLink>
+                            <NavLink className="dropdown-item" to="#" onClick={() => { setProductCategory('kitchenware') }}>KITCHENWARE</NavLink>
                             <NavLink className="dropdown-item" to="#" onClick={() => { setProductCategory('Electronic Accessories') }}>Electronic Accessories</NavLink>
                         </div>
+                    </div>
+                </div>
+
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Upload Image</span>
+                    </div>
+                    <div className="custom-file">
+                        <input type="file" className="custom-file-input" onChange={onImageChange} />
+                        <label className="custom-file-label">Choose file</label>
                     </div>
                 </div>
 
