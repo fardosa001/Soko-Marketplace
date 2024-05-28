@@ -4,9 +4,11 @@ import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_cors import CORS
 from bson.objectid import ObjectId
+from bson.json_util import dumps, loads
 import os
 import certifi
 import logging
+import json
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -61,8 +63,93 @@ def adminRegister():
 
         return jsonify(token=str(access_token)), 201
 
-from flask import jsonify, request
-import bcrypt
+
+@app.route('/addProduct', methods=['POST'])
+def addProduct():
+    try:
+        data = request.get_json()
+        adminId = data.get('adminId')
+        adminName = data.get('adminName')
+        productUrl = data.get('productUrl')
+        productName = data.get('productName')
+        productCategory = data.get('productCategory')
+        productPrice = data.get('productPrice')
+
+        AllProducts = mongo.db.products
+        existing_product = AllProducts.find_one({
+            'productName': productName,
+            'productPrice': productPrice,
+            'adminId': adminId
+        })
+        if existing_product:
+            return jsonify({'error': 'Product already added!'}), 409
+
+        # Insert new product
+        AllProducts.insert_one({
+            'adminId': adminId,
+            'adminName': adminName,
+            'productUrl': productUrl,
+            'productName': productName,
+            'productCategory': productCategory,
+            'productPrice': productPrice
+        })
+        
+        return jsonify({'message': 'Product added successfully!'}), 201
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+@app.route("/getAllProducts", methods=['GET'])
+def getAllProducts():
+    allProducts = mongo.db.products
+    prod = dumps(
+        list(allProducts.find({})), indent=2)
+
+    prod = json.loads(prod)
+    return jsonify(prod), 201
+
+
+@app.route("/editProduct", methods=['PUT'])
+def editProduct():
+    try:
+        data = request.json
+        id = data['uid']
+        productName = data['productName']
+        productPrice = data['productPrice']
+        productUrl = data['productUrl']
+
+        # Update the product
+        AllProducts = mongo.db.products.update_one(
+            {'_id': ObjectId(id)},
+            {'$set': {
+                'productName': productName,
+                'productPrice': productPrice,
+                'productUrl': productUrl
+            }}
+        )
+
+        if AllProducts.matched_count > 0:
+            return jsonify(message='Product Updated Successfully'), 201
+        else:
+            return jsonify(message='Product not found'), 404
+    except Exception as e:
+        app.logger.error(f"Error updating product: {e}")
+        return jsonify(message='Something went wrong'), 500
+
+
+@app.route("/deleteProduct", methods=['PUT'])
+def deleteProduct():
+
+    id = request.json['uid']
+    AllProducts = mongo.db.products
+    prod = AllProducts.find_one({'_id': ObjectId(id)})
+
+    if prod:
+        AllProducts.delete_one(prod)
+        return jsonify(message='Product Deleted Successfully'), 201
+    return jsonify(message='Something went wrong'), 401
+
 
 @app.route("/adminLogin", methods=['POST'])
 def adminLogin():
@@ -78,6 +165,32 @@ def adminLogin():
         return jsonify(token=str(access_token)), 201
 
     return jsonify(message='Invalid Username/Password'), 401
+
+@app.route("/getAdminData", methods=['POST'])
+def getAdminData():
+
+    allUsers = mongo.db.admins
+    # user = allUsers.find_one({'tokens.token': request.json['auth']})
+    user = dumps(
+        list(allUsers.find({'tokens.token': request.json['auth']})), indent=2)
+
+    if user:
+        user = json.loads(user)
+        return jsonify(user), 201
+
+    return jsonify(message='Something went wrong'), 401
+
+
+@app.route("/adminOrders", methods=['PUT'])
+def adminOrders():
+    uid = request.json['uid']
+    oid = request.json['oid']
+    allUsers = mongo.db.users
+    user = allUsers.find_one({'_id': uid, "orders": {'_id': ObjectId(oid)}})
+    if user:
+        print(user)
+        return 201
+    return 401
 
 
 @app.route("/logoutAdmin", methods=['POST'])
