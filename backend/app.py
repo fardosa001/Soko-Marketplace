@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_pymongo import PyMongo
 import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
@@ -206,6 +206,80 @@ def logoutAdmin():
         )
         return jsonify(message='Logout Successfully!'), 201
     return jsonify(message='Invalid token'), 401
+
+
+# user api
+
+@app.route("/userRegister", methods=['POST', 'GET'])
+def userRegister():
+    if request.method == 'POST':
+        allUsers = mongo.db.users
+        user = allUsers.find_one({'email': request.json['email']})
+        username = allUsers.find_one({'username': request.json['username']})
+        phone = allUsers.find_one({'phone': request.json['phone']})
+
+        if user:
+            return jsonify(message='Email already exists'), 401
+        if username:
+            return jsonify(message='Username already exists'), 401
+        if phone:
+            return jsonify(message='Phone Number already exists'), 401
+
+        if request.json['password'] != request.json['cpassword']:
+            return jsonify(message='Password Not Matching!'), 401
+
+        hashpw = bcrypt.hashpw(
+            request.json['password'].encode('utf-8'), bcrypt.gensalt())
+
+        hashCpw = bcrypt.hashpw(
+            request.json['cpassword'].encode('utf-8'), bcrypt.gensalt())
+
+        access_token = create_access_token(identity=request.json['email'])
+
+        allUsers.insert_one({
+            'email': request.json['email'],
+            'password': hashpw,
+            'cpassword': hashCpw,
+            "username": request.json['username'],
+            "phone": request.json['phone'],
+            'tokens': [
+                {
+                    'token': str(access_token)
+                }
+            ]
+        })
+
+        session['email'] = request.json['email']
+        return jsonify(token=str(access_token)), 201
+
+
+@app.route("/userLogin", methods=['POST'])
+def userLogin():
+    allUsers = mongo.db.users
+    user = allUsers.find_one({'email': request.json['email']})
+
+    if user and bcrypt.checkpw(request.json['password'].encode('utf-8'), user['password']):
+        access_token = create_access_token(identity=request.json['email'])
+        allUsers.update_one(
+            {'email': request.json['email']},
+            {'$push': {'tokens': {'token': str(access_token)}}}
+        )
+        return jsonify(token=str(access_token)), 201
+
+    return jsonify(message='Invalid Username/Password'), 401
+
+@app.route("/getUserData", methods=['POST'])
+def getUserData():
+
+    allUsers = mongo.db.users
+    user = dumps(
+        list(allUsers.find({'tokens.token': request.json['auth']})), indent=2)
+
+    if user:
+        user = json.loads(user)
+        return jsonify(user), 201
+
+    return jsonify(message='Something went wrong'), 401
 
 
 if __name__ == '__main__':
