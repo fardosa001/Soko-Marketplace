@@ -9,6 +9,8 @@ import os
 import certifi
 import logging
 import json
+from pymongo import ReturnDocument
+
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -280,6 +282,41 @@ def getUserData():
         return jsonify(user), 201
 
     return jsonify(message='Something went wrong'), 401
+
+
+@app.route("/addtoCart", methods=['PUT'])
+def addtoCart():
+
+    newCartProd = {
+
+        'pid': request.json['pid'],
+        'productUrl': request.json['productUrl'],
+        'productName': request.json['productName'],
+        'productPrice': request.json['productPrice'],
+        'productType': request.json['productType'],
+    }
+    uid = request.json['uid']
+
+    allUsers = mongo.db.users
+    user = list(allUsers.find(
+        {'_id': ObjectId(uid), 'cartProducts':  {'$elemMatch': newCartProd}}))
+
+    if len(user) > 0:
+        return jsonify(message='Product Already Added!'), 401
+
+    allUsers.find_one_and_update({'_id': ObjectId(uid)},
+                                 {'$push': {"cartProducts":
+                                            {
+                                                '_id': ObjectId(),
+                                                'pid': request.json['pid'],
+                                                'productUrl': request.json['productUrl'],
+                                                'productName': request.json['productName'],
+                                                'productPrice': request.json['productPrice'],
+                                                'productType': request.json['productType'],
+                                            }
+                                            }},
+                                 return_document=ReturnDocument.AFTER)
+    return jsonify(message='Product Added Successfully!'), 201
 
 
 if __name__ == '__main__':
