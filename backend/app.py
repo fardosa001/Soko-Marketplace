@@ -318,6 +318,162 @@ def addtoCart():
                                  return_document=ReturnDocument.AFTER)
     return jsonify(message='Product Added Successfully!'), 201
 
+@app.route("/removefromCart", methods=['PUT'])
+def removefromCart():
+    allUsers = mongo.db.users
+    uid = request.json['uid']
+    cid = request.json['cid']
+
+    try:
+        allUsers.find_one_and_update({'_id': ObjectId(uid)},
+                                     {'$pull': {
+                                         "cartProducts": {'_id': ObjectId(cid)}
+                                     }},
+                                     return_document=ReturnDocument.AFTER
+                                     )
+        return jsonify(message='Product Removed Successfully!'), 201
+
+    except Exception as e:
+        print(e)
+        return jsonify(message='Something went wrong!'), 401
+
+
+@app.route("/deleteOrder", methods=['PUT'])
+def deleteOrder():
+    allUsers = mongo.db.users
+    uid = request.json['uid']
+    oid = request.json['oid']
+    pid = request.json['pid']
+    qty = request.json['qty']
+
+    verifyOrder = {
+        'pid': ObjectId(pid),
+        'uid': ObjectId(uid),
+        'Quantity': qty
+    }
+    try:
+
+        allProducts = mongo.db.products
+        prod = allProducts.find_one({'_id': ObjectId(pid)})
+
+        if prod:
+            aid = prod['adminId']
+
+            allAdmins = mongo.db.admins
+            admin = allAdmins.find_one({'_id': ObjectId(aid)})
+
+            # admin = list(allAdmins.find(
+            #     {'_id': ObjectId(aid), 'orders':  {'$elemMatch': verifyOrder}}))
+
+            admin = admin.get('orders')
+
+            # print('admin==>'+str(admin))
+            # print(type(admin))
+
+            for ord in admin:
+                if ord.get('pid') == pid and ord.get('uid') == uid and ord.get('Quantity') == qty:
+                    aoid = ord.get('_id')
+
+        else:
+
+            return jsonify(message='Something went wrong!'), 401
+
+        allUsers.find_one_and_update({'_id': ObjectId(uid)},
+                                     {'$pull': {
+                                         "orders": {'_id': ObjectId(oid)}
+                                     }},
+                                     return_document=ReturnDocument.AFTER
+                                     )
+
+        allAdmins.find_one_and_update({'_id': ObjectId(aid)},
+                                      {'$pull': {
+                                          "orders": {'_id': ObjectId(aoid)}
+                                      }},
+                                      return_document=ReturnDocument.AFTER
+                                      )
+        return jsonify(message='Order Cancelled Successfully!'), 201
+
+    except Exception as e:
+        print(e)
+        return jsonify(message='Something went wrong!'), 401
+
+@app.route("/userOrders", methods=['PUT'])
+def userOrders():
+    newOrder = {
+        'pid': request.json['pid'],
+        'productUrl': request.json['productUrl'],
+        'productName': request.json['productName'],
+        'productPrice': request.json['productPrice'],
+        'productType': request.json['productType'],
+        'Quantity': request.json['qty']
+    }
+    uid = request.json['uid']
+    pid = request.json['pid']
+
+    allUsers = mongo.db.users
+    user = list(allUsers.find(
+        {'_id': ObjectId(uid), 'orders':  {'$elemMatch': newOrder}}))
+
+    if len(user) > 0:
+        return jsonify(message='Order already Placed'), 401
+    allProducts = mongo.db.products
+    prod = allProducts.find_one({'_id': ObjectId(pid)})
+
+    if prod:
+        aid = prod['adminId']
+
+        allAdmins = mongo.db.admins
+        admin = allAdmins.find_one({'_id': ObjectId(aid)})
+        if admin:
+            allAdmins.find_one_and_update({'_id': ObjectId(aid)},
+                                          {'$push': {"orders":
+                                                     {
+                                                         '_id': ObjectId(),
+                                                         'pid': request.json['pid'],
+                                                         'uid': request.json['uid'],
+                                                         'productUrl': request.json['productUrl'],
+                                                         'productName': request.json['productName'],
+                                                         'productPrice': request.json['productPrice'],
+                                                         'productType': request.json['productType'],
+                                                         'Quantity': request.json['qty']
+                                                     }
+                                                     }},
+                                          return_document=ReturnDocument.AFTER)
+    else:
+        return jsonify(message='Something went wrong!')
+
+    allUsers.find_one_and_update({'_id': ObjectId(uid)},
+                                 {'$push': {"orders":
+                                            {
+                                                '_id': ObjectId(),
+                                                'pid': request.json['pid'],
+                                                'productUrl': request.json['productUrl'],
+                                                'productName': request.json['productName'],
+                                                'productPrice': request.json['productPrice'],
+                                                'productType': request.json['productType'],
+                                                'Quantity': request.json['qty']
+                                            }
+                                            }},
+                                 return_document=ReturnDocument.AFTER)
+    return jsonify(message='Order Placed Successfully!'), 201
+
+
+@app.route("/suggestions", methods=['PUT'])
+def suggestions():
+    return 401
+
+
+@app.route("/logoutUser", methods=['POST'])
+def logoutUser():
+    allUsers = mongo.db.users
+    user = allUsers.find_one({'tokens.token': request.json['auth']})
+
+    if user:
+        user['tokens'] = []
+        allUsers.update_one(user)
+        return jsonify(message='Logout Successfully!'), 201
+    return jsonify(message='Something went wrong!'), 401
+
 
 if __name__ == '__main__':
     app.run(debug=True)
