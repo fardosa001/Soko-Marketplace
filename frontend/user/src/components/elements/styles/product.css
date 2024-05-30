@@ -1,0 +1,130 @@
+.product-view {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .product-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .product-image-gallery {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .main-image {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: transparent url('../img/product2.png') 0% 0% no-repeat padding-box;
+  }
+  
+  .thumbnail-images {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .thumbnail-images img {
+    width: 22%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .product-details {
+    flex: 2;
+  }
+  
+  .product-details h2 {
+    margin-top: 0;
+  }
+  
+  .price {
+    color: #e74c3c;
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  
+  .size-options {
+    margin: 10px 0;
+  }
+  
+  .size-button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .size-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .stock-status {
+    color: green;
+    margin: 10px 0;
+  }
+  
+  .quantity {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .quantity button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .quantity input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 5px;
+    border-radius: 3px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    margin: 20px 0;
+  }
+  
+  .add-to-cart,
+  .buy-it-now {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .add-to-cart {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .buy-it-now {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .attribution {
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 20px;
+  }
+  

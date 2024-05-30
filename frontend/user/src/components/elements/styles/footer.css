@@ -1,0 +1,111 @@
+/* styles for footer */
+.footer {
+    display: flex;
+    flex-direction: row;
+    /* width: 1920px;
+    height: 391px; */
+    background: #0D3745 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.newsletter {
+    /* width: 113px;
+    height: 30px; */
+    /* text-align: left;
+    font-family: Roboto;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: bold; */
+    letter-spacing: -0.63px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.newsletter-title {
+    margin-top: 49px;
+    margin-left: 450px;
+    /* margin-bottom: 10px; */
+    text-align: left;
+    font-family: Roboto;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: -0.63px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.newsletter-subtitle {
+    margin-left: 300px;
+    margin-bottom: 15px;
+    text-align: left;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.2px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.newsletter-form {
+    margin-left: 230px;
+    width: 782px;
+    height: 67px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 20px;
+    text-align: left;
+    font-family: Roboto;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: 0px;
+    background: none;
+    border: none;
+    opacity: 0.92;
+}
+
+.newsletter-form button {
+    margin-left: 400px;
+    margin-right: 0;
+    background-color: #0D3745;
+}
+
+.footer-logo {
+    margin-top: 21px;
+    margin-left: 140px;
+    width: 118px;
+    height: 44px;
+    background: transparent url('../img/invert.svg') 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.catch-phrase {
+    margin-left: 137px;
+    margin-bottom: 47px;
+    font-size: 16px;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    margin-top: 105px;
+    margin-left: 188px;
+    color: #FFFFFF;
+}
+
+.links li {
+    font-size: 16px;
+    font-style: normal;
+    list-style: none;
+}
+
+.contact {
+    margin-right: 50px;
+}

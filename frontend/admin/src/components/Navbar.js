@@ -45,7 +45,9 @@ const Navbar = () => {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <NavLink className="navbar-brand" to="/">
                     {/* <img className='logo' src={logo} alt='logo' /> */}
-                    <b>Soko-Marketplace</b>
+                    <b className='logo'>
+                        <img src={require('./elements/img/soko.svg').default} alt='logo' style={{ width: '120px', height: '120px' }} />
+                    </b>
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -54,7 +56,7 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         <RenderNavbar />
-                    </ul>
+                    </ul>frontend/admin/src/components/elements/img frontend/admin/src/components/elements/styles
 
                 </div>
             </nav>
