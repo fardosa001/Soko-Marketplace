@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
 
@@ -46,7 +47,7 @@ const Navbar = () => {
                 <NavLink className="navbar-brand" to="/">
                     {/* <img className='logo' src={logo} alt='logo' /> */}
                     <b className='logo'>
-                        <img src={require('./elements/img/soko.svg').default} alt='logo' style={{ width: '120px', height: '120px' }} />
+                        <img src={require('./elements/img/soko.svg').default} alt='logo' style={{ width: '80px', height: '80px' }} />
                     </b>
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +57,7 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         <RenderNavbar />
-                    </ul>frontend/admin/src/components/elements/img frontend/admin/src/components/elements/styles
+                    </ul>
 
                 </div>
             </nav>
