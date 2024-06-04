@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
@@ -43,7 +45,7 @@ const Orders = () => {
             setTimeout(() => {
 
             }, 2000);
-            history.push('/allOrders')
+            navigate.push('/allOrders')
             window.location.reload();
         } else {
 

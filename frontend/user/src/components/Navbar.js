@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
-import logo from '../img/logo.jpg'
+// import logo from '../img/logo.jpg'
 
 
 
@@ -90,7 +91,7 @@ const Navbar = () => {
                 <NavLink className="navbar-brand" to="/">
                     {/* <img className='logo' src={logo} alt='logo' /> */}
                     <b className='logo'>
-                        <img src={require('./elements/img/soko.svg').default} alt='logo' style={{ width: '120px', height: '120px' }} />
+                        <img src={require('./elements/img/soko.svg').default} alt='logo' style={{ width: '80px', height: '80px' }} />
                     </b>
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

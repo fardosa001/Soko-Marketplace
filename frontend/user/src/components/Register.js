@@ -37,7 +37,7 @@ const Register = () => {
             localStorage.setItem('token', data.token)
             window.alert("Registration Successful")
 
-            history.push('/')
+            navigate.push('/')
             window.location.reload();
 
         } else {

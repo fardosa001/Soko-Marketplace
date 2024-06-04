@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 
@@ -32,7 +33,7 @@ const Login = () => {
             window.alert("login Successful")
             localStorage.setItem('token', data.token)
             window.location.reload();
-            history.push('/')
+            navigate.push('/')
             window.location.reload();
         } else {
             window.alert("Invalid Credentials")
