@@ -16,7 +16,7 @@ Welcome to Soko-MarketPlace, an e-commerce web application aimed at empowering l
 
 ### Technologies Used
 * Frontend: HTML, CSS, JavaScript, React.js
-* Backend: PyMongo DB
+* Backend: Python Flask, PyMongo DB
 * Authentication: JSON Web Tokens (JWT)
 * Other Tools: Git, GitHub, Vi, VSCode
 
