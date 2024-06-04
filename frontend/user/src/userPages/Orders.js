@@ -18,32 +18,37 @@ const Orders = () => {
     const notifyError = (msg) => toast.error(msg);
 
     const placeOrder = async () => {
-        const res = await fetch('/userOrders', {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'pid': state.pid,
-                'uid': state.uid,
-                'productUrl': state.productUrl,
-                'productName': state.productName,
-                'productPrice': state.productPrice,
-                'productType': state.productType,
-                'qty': count
-            })
-        });
+        try {
+            const response = await fetch('/userOrders', {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pid: state.pid,
+                    uid: state.uid,
+                    productUrl: state.productUrl,
+                    productName: state.productName,
+                    productPrice: state.productPrice,
+                    productType: state.productType,
+                    qty: count
+                })
+            });
 
-        const data = await res.json();
+            const data = await response.json();
 
-        if (res.status === 201) {
-            notifyOrder(data.message);
-            setTimeout(() => {
-                navigate('/allOrders');
-                window.location.reload();
-            }, 2000);
-        } else {
-            notifyError(data.message);
+            if (response.status === 201) {
+                notifyOrder(data.message);
+                setTimeout(() => {
+                    navigate('/allOrders');
+                    window.location.reload();
+                }, 2000);
+            } else {
+                notifyError(data.message);
+            }
+        } catch (error) {
+            notifyError("Something went wrong!");
+            console.error("Error placing order:", error);
         }
     };
 
@@ -84,7 +89,7 @@ const Orders = () => {
                                 <div className="col-md-9 col-xs-9">
                                     <NavLink to="#" className="title" data-abc="true">Quantity</NavLink>
                                     <br />
-                                    <i className="fas fa-plus" onClick={() => setCount(count + 1)} /> &nbsp;  &nbsp;
+                                    <i className="fas fa-plus" onClick={() => setCount(count + 1)} /> &nbsp; &nbsp;
                                     <i className="fas fa-minus" onClick={() => count > 1 && setCount(count - 1)} />
                                 </div>
                                 <div className="col-md-3 col-xs-3">

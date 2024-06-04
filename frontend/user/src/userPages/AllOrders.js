@@ -1,145 +1,140 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import Comments from '../utils/Comments';
+import Rating from '../utils/Rating';
 
-const AllOrders = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+const Orders = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [count, setCount] = useState(1);
 
-  const [dataa, setData] = useState('');
-  const [orders, setOrders] = useState([]);
+    const state = location.state || {};
 
-  const getUserData = async () => {
-    const token = await localStorage.getItem('token');
-    try {
-      const res = await fetch('/getUserData', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "auth": token,
-        }),
-      });
+    const notifyOrder = (msg) => toast.success(msg, {
+        icon: '😀',
+    });
 
-      const data = await res.json();
-      if (res.status === 201) {
-        setData(data[0]);
-        setOrders(data[0].orders || []);
-      } else {
-        window.alert('Something went wrong');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const notifyError = (msg) => toast.error(msg);
 
-  const notifyDelete = () => toast('Order Deleted!', {
-    icon: '😔',
-  });
+    const placeOrder = async () => {
+        try {
+            const response = await fetch('/userOrders', {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pid: state.pid,
+                    uid: state.uid,
+                    productUrl: state.productUrl,
+                    productName: state.productName,
+                    productPrice: state.productPrice,
+                    productType: state.productType,
+                    qty: count
+                })
+            });
 
-  const deleteOrder = async (oid, pid, qty) => {
-    const confirmBox = window.confirm("Do you really want to cancel the Order?");
-    if (confirmBox === true) {
-      try {
-        const res = await fetch('/deleteOrder', {
-          method: "PUT",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "uid": dataa._id['$oid'],
-            "oid": oid,
-            "pid": pid,
-            "qty": qty,
-          }),
-        });
+            const data = await response.json();
 
-        const data = await res.json();
-        if (res.status === 201) {
-          notifyDelete();
-          setTimeout(() => {
-            navigate('/allOrders');
-            window.location.reload();
-          }, 2000);
-        } else {
-          window.alert(data.message);
+            if (response.status === 201) {
+                notifyOrder(data.message);
+                setTimeout(() => {
+                    navigate('/allOrders');
+                    window.location.reload();
+                }, 2000);
+            } else {
+                notifyError(data.message);
+            }
+        } catch (error) {
+            notifyError("Something went wrong!");
+            console.error("Error placing order:", error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      navigate('/allOrders');
-    }
-  };
+    };
 
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  return (
-    <div>
-      <Toaster />
-      <div className="container py-3">
-        {orders.length === 0 ? (
-          <div className="row text-center align-self-center" style={{ marginTop: '20%' }}>
-            <div className="col-lg-7 mx-auto">
-              <h1 className="display-4">No Orders to Display</h1>
-              <NavLink to='/' className="lead mb-0" style={{ color: '#0066ff' }}>Go Back to Home</NavLink>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="row text-center mb-5">
-              <div className="col-lg-7 mx-auto">
-                <h1 className="display-4">My Orders</h1>
-                <p className="lead mb-0">...</p>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-lg-8 mx-auto">
-                <ul className="list-group shadow">
-                  {orders.slice(0).reverse().map(p => (
-                    <NavLink
-                      key={p._id['$oid']}
-                      to={{
-                        pathname: '/orders',
-                        state: {
-                          pid: p.pid,
-                          uid: dataa._id['$oid'],
-                          productUrl: p.productUrl,
-                          productName: p.productName,
-                          productType: p.productType,
-                          productPrice: p.productPrice,
-                        },
-                      }}
-                      style={{ color: 'black' }}
-                    >
-                      <li className="list-group-item">
-                        <div className="media align-items-lg-center flex-column flex-lg-row p-3">
-                          <div className="media-body order-2 order-lg-1">
-                            <h6 className="mt-0 font-weight-bold mb-2">{p.productName}</h6>
-                            <p className="font-italic text-muted mb-0 small">Ksh {p.productPrice} for {p.productType}</p>
-                            <p className="font-italic text-muted mb-0 small">Quantity: {p.Quantity}</p>
-                            <div style={{ flexDirection: 'row' }}>
-                              <NavLink to='/allOrders' style={{ color: 'red' }} onClick={() => { deleteOrder(p._id['$oid'], p.pid, p.Quantity) }}>CANCEL ORDER</NavLink>
-                            </div>
-                          </div>
-                          <img src={p.productUrl} alt="Product" width="200" className="ml-lg-5 order-1 order-lg-2" />
-                        </div>
-                      </li>
+    return (
+        <>
+            <div className="container d-flex justify-content-center">
+                <Toaster />
+                <figure className="card card-product-grid card-lg">
+                    <NavLink to="#" className="img-wrap" data-abc="true">
+                        <img src="https://i.imgur.com/MPqUt62.jpg" alt="Product" />
                     </NavLink>
-                  ))}
-                </ul>
-              </div>
+                    <figcaption className="info-wrap">
+                        <div className="row">
+                            <div className="col-md-9 col-xs-9">
+                                <NavLink to="#" className="title" data-abc="true">
+                                    {state.productName}
+                                </NavLink>
+                                <span className="rated">Laptops</span>
+                            </div>
+                        </div>
+                    </figcaption>
+                    <div className="bottom-wrap-payment">
+                        <figcaption className="info-wrap">
+                            <div className="row">
+                                <div className="col-md-9 col-xs-9">
+                                    <NavLink to="#" className="title" data-abc="true">Price</NavLink>
+                                    <span className="rated">for {state.productType}</span>
+                                </div>
+                                <div className="col-md-3 col-xs-3">
+                                    <div className="rating text-right">KSH {state.productPrice}</div>
+                                </div>
+                            </div>
+                        </figcaption>
+                    </div>
+                    <div className="bottom-wrap-payment">
+                        <figcaption className="info-wrap">
+                            <div className="row">
+                                <div className="col-md-9 col-xs-9">
+                                    <NavLink to="#" className="title" data-abc="true">Quantity</NavLink>
+                                    <br />
+                                    <i className="fas fa-plus" onClick={() => setCount(count + 1)} /> &nbsp; &nbsp;
+                                    <i className="fas fa-minus" onClick={() => count > 1 && setCount(count - 1)} />
+                                </div>
+                                <div className="col-md-3 col-xs-3">
+                                    <div className="rating text-right">{count}</div>
+                                </div>
+                            </div>
+                        </figcaption>
+                    </div>
+                    <div className="bottom-wrap-payment">
+                        <figcaption className="info-wrap">
+                            <div className="row">
+                                <div className="col-md-9 col-xs-9">
+                                    <NavLink to="#" className="title" data-abc="true">Rating</NavLink>
+                                </div>
+                                <div className="col-md-3 col-xs-3">
+                                    {state.rating ? (
+                                        <div className="rating text-right">{state.rating}/5</div>
+                                    ) : (
+                                        <div className="rating text-right">No Ratings</div>
+                                    )}
+                                </div>
+                            </div>
+                        </figcaption>
+                    </div>
+                    <div className="bottom-wrap" style={{ marginBottom: '30px' }}>
+                        <NavLink to="/allOrders" className="btn btn-primary float-right" data-abc="true" onClick={placeOrder}>
+                            Buy now
+                        </NavLink>
+                        <div className="price-wrap">
+                            <NavLink to="/" className="btn btn-warning float-left" data-abc="true">
+                                Cancel
+                            </NavLink>
+                        </div>
+                    </div>
+                </figure>
             </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+            <div style={{ marginTop: '20px' }}>
+                <Rating pid={state.pid} />
+            </div>
+            <div style={{ marginTop: '20px' }}>
+                <Comments pid={state.pid} uid={state.uid} />
+            </div>
+        </>
+    );
 };
 
-export default AllOrders;
+export default Orders;
