@@ -1,0 +1,352 @@
+/* styles for content */
+.content {
+    /* background: blue; */
+    color: black;
+    font-size: 100px;
+}
+
+.hero-bg {
+    display: flex;
+    background-image: url('../img/hero-bg.png');
+    background-size: cover;
+    opacity: 1;
+}
+
+.hero-text {
+    margin-left: 156px;
+}
+
+.cta {
+    margin-top: auto;
+    margin-bottom: 0;
+    padding-top: 245px;
+    width: auto;
+    height: auto;
+    text-align: left;
+    font-family: Roboto;
+    font-size: 54px;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: -2.53px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.caption {
+    width: auto;
+    height: 84px;
+    text-align: left;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: -0.29px;
+    color: #FFFFFF;
+    opacity: 0.92;
+}
+
+.cta-btns {
+    display: flex;
+    flex-direction: row;
+    margin-left: 156px;
+    font-size: 16px;
+    color: #FFFFFF;
+}
+
+.buynow {
+    width: 192px;
+    height: 70px;
+    background: #BE2623 0% 0% no-repeat padding-box;
+    border-radius: 5p250x;
+    opacity: 1;
+}
+
+.tradein {
+    margin-right: 0;
+    width: 315px;
+    height: 70px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    opacity: 0.15;
+}
+
+.iPhone {
+    width: 1100px; /* actual size: 1348px */
+    height: 850px; /* actual size: 898px */
+    background: url('../img/apple15.png') 0% 0% no-repeat padding-box; 
+    opacity: 1;
+}
+
+/* top-categories */
+/* .top-category {} */
+
+.tc-header {
+    text-align: center;
+    padding-top: 32px;
+    padding-bottom: 21px;
+}
+.tc-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+}
+
+.tc-subtitle {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+
+.category-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.card-1 {
+    width: 780px;
+    height: 891px;
+    background: red;
+    /* background: transparent url('img/domenico-loia-hGV2TfOh0ns-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.card-2 {
+    display: flex;
+    flex-direction: column;
+    padding-left: 16px;
+}
+
+.card-2A {
+    width: 843px;
+    height: 428px;
+    background: blue;
+    /* background: transparent url('img/clark-street-mercantile-P3pI6xzovu0-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.card-3 {
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+}
+
+.card-3A {
+    width: 414px;
+    height: 448px;
+    background: green;
+    /* background: transparent url('img/clark-street-mercantile-P3pI6xzovu0-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.card-3B {
+    margin-left: 15px;
+    width: 414px;
+    height: 448px;
+    background: yellow;
+    /* background: transparent url('img/lars-kaizer-WGiKqDlVUCI-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+/* trends */
+/* .trends {} */
+.trend-title {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+}
+
+.trend-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.trend-card-1 {
+    width: 352px;
+    height: 381px;
+    background: yellowgreen;
+    /* background: transparent url('img/howard-bouchevereau-RSCirJ70NDM-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.trend-card-2 {
+    margin-left: 38px;
+    width: 352px;
+    height: 381px;
+    background: wheat;
+    /* background: transparent url('img/howard-bouchevereau-RSCirJ70NDM-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.trend-card-3 {
+    margin-left: 38px;
+    width: 352px;
+    height: 381px;
+    background: lightcoral;
+    /* background: transparent url('img/howard-bouchevereau-RSCirJ70NDM-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.trend-card-4 {
+    margin-left: 38px;
+    width: 352px;
+    height: 381px;
+    background: lightsalmon;
+    /* background: transparent url('img/howard-bouchevereau-RSCirJ70NDM-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+
+/* new-arrivals */
+.na-title {
+    font-size: 32px;
+    font-weight: bold;
+    font-style: normal;
+    text-align: center;
+    font: normal normal bold 32px/70px Roboto;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+}
+
+.na-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.na-card-1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.na-card-1A {
+    width: 843px;
+    height: 428px;
+    /* background: transparent url('img/Apple-iPhone-15-Pro-Lineup-PNG.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+.na-card-2 {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+.na-card-2A {
+    width: 414px;
+    height: 448px;
+    /* background: transparent url('img/imani-bahati-LxVxPA1LOVM-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.na-card-2B {
+    margin-left: 15px;
+    width: 414px;
+    height: 448px;
+    /* background: transparent url('img/benjamin-r-Eav5V0COmQ4-unsplash.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.na-card-3 {
+    margin-left: 16px;
+    width: 780px;
+    height: 891px;
+    /* background: transparent url('img/gsmarena_002.png') 0% 0% no-repeat padding-box; */
+    box-shadow: 3px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+/* why-choose-us */
+
+/* testimonials */
+.testimonials {
+    margin-bottom: 99px;
+}
+.testimonials-title {
+    text-align: center;
+    font: normal normal bold 32px/70px Roboto;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+}
+
+.testimonials-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.testimonials-card-1 {
+    width: 339px;
+    height: 326px;
+    background:#F3F2ED 0% 0% no-repeat padding-box;
+    box-shadow: 6px 6px 10px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.testimonials-card-2 {
+    margin: 0px 47px 0px 47px;
+    width: 370px;
+    height: 355px;
+    background: #0D3745 0% 0% no-repeat padding-box;
+    box-shadow: 6px 6px 10px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.testimonials-card-3 {
+    width: 339px;
+    height: 326px;
+    background: #F3F2ED 0% 0% no-repeat padding-box;
+    box-shadow: 6px 6px 10px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+}
