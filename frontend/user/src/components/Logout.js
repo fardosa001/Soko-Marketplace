@@ -31,7 +31,7 @@ const Logout = () => {
                 await localStorage.removeItem('token')
                 // window.alert('Successfully Logout')
 
-                history.push('/login', { replace: true })
+                navigate('/login', { replace: true })
                 window.location.reload();
             }
 
@@ -55,8 +55,8 @@ const Logout = () => {
             localStorage.removeItem('token')
 
 
-            history.push('/login', { replace: true })
-            history.push('/')
+            navigate('/login', { replace: true })
+            navigate('/')
         }
     })
 

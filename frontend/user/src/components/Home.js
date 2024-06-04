@@ -133,7 +133,7 @@ const Home = ({ props }) => {
                     <div>
                         {/* <Carousel /> */}
                         <br />
-                        <h3 >Groceries</h3>
+                        <h3 >Products</h3>
                         <hr />
                         <div className='scroll-products'>
                             {/* <AllProducts productUrl={plus} addButton={true} /> */}
